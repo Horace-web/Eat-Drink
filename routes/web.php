@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\StandController;
 
 Route::get('/', function () {
     return view('home');
@@ -62,3 +63,30 @@ Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':admin'])->g
     Route::post('/admin/rejeter/{id}', [AdminController::class, 'rejeter'])->name('admin.rejeter');
 });
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+use App\Http\Controllers\ProductController;
+
+
+Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':entrepreneur_approuve'])->group(function () {
+
+    // Routes Produits
+    Route::get('/entrepreneur/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    // Routes Stands
+    Route::get('/entrepreneur/stands', [StandController::class, 'index'])->name('entrepreneur.stands.index');
+    Route::get('/entrepreneur/stands/create', [StandController::class, 'create'])->name('entrepreneur.stands.create');
+    Route::post('/entrepreneur/stands', [StandController::class, 'store'])->name('entrepreneur.stands.store');
+    Route::get('/entrepreneur/stands/{stand}/edit', [StandController::class, 'edit'])->name('entrepreneur.stands.edit');
+    Route::put('/entrepreneur/stands/{stand}', [StandController::class, 'update'])->name('entrepreneur.stands.update');
+    Route::delete('/entrepreneur/stands/{stand}', [StandController::class, 'destroy'])->name('entrepreneur.stands.destroy');
+});
+
+
+Route::get('/entrepreneur/dashboard', [EntrepreneurController::class, 'dashboard'])
+    ->middleware(['auth', \App\Http\Middleware\CheckRole::class . ':entrepreneur_approuve', \App\Http\Middleware\CheckEntrepreneurStatus::class])
+    ->name('entrepreneur.dashboard');

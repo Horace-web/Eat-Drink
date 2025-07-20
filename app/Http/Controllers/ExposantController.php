@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
  use App\Models\Stand;
- use App\Models\Produit;
+ use App\Models\Product;
 
- 
+
 class ExposantController extends Controller
 {
     //
-   
+
 
 public function index()
 {
@@ -27,7 +27,7 @@ public function index()
 
 public function show($id)
 {
-    $stand = Stand::with(['user', 'produits'])->findOrFail($id);
+    $stand = Stand::with(['user', 'products'])->findOrFail($id);
     return view('exposants.show', compact('stand'));
 }
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stands', function (Blueprint $table) {
             $table->id();
-            $table->string('nom_stand');
+            $table->string('nom');
             $table->text('description')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

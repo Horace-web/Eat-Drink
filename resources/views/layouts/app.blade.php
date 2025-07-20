@@ -54,9 +54,16 @@
                             {{-- Lien Mes produits pour entrepreneurs validés --}}
                             @if(auth()->user()->role === 'entrepreneur_approuve')
                                 <li class="nav-item">
-                                    <a href="{{ url('/mes-produits') }}" class="nav-link">Mes produits</a>
+                                    <a href="{{ route('products.index') }}" class="nav-link">Mes produits</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('entrepreneur.stands.index') }}" class="nav-link">Mes stands</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('entrepreneur.dashboard') }}" class="nav-link">Tableau de bord</a>
                                 </li>
                             @endif
+
 
                             {{-- Bouton Déconnexion --}}
                             <li class="nav-item">

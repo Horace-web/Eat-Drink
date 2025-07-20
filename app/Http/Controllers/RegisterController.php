@@ -23,7 +23,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'entrepreneur_en_attente',
             'statut' => 'en_attente',
-            'nom_entreprise' => null,
+            'nom_entreprise' => $request->nom_entreprise,
         ]);
 
         return redirect()->back()->with('success', 'Votre demande d\'inscription a bien été envoyée.');
