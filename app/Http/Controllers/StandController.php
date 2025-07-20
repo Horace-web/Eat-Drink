@@ -27,11 +27,11 @@ class StandController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|max:255',
+            'nom_stand' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
-        Auth::user()->stands()->create($request->only('nom', 'description'));
+        Auth::user()->stands()->create($request->only('nom_stand', 'description'));
 
         return redirect()->route('entrepreneur.stands.index')->with('success', 'Stand ajouté avec succès.');
     }
@@ -48,11 +48,11 @@ class StandController extends Controller
         // $this->authorize('update', $stand);
 
         $request->validate([
-            'nom' => 'required|string|max:255',
+            'nom_stand' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
-        $stand->update($request->only('nom', 'description'));
+        $stand->update($request->only('nom_stand', 'description'));
 
         return redirect()->route('entrepreneur.stands.index')->with('success', 'Stand mis à jour avec succès.');
     }

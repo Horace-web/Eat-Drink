@@ -26,7 +26,7 @@
             <tbody>
                 @foreach($stands as $stand)
                     <tr>
-                        <td>{{ $stand->nom }}</td>
+                        <td>{{ $stand->nom_stand }}</td>
                         <td>{{ $stand->description }}</td>
                         <td>
                             <a href="{{ route('entrepreneur.stands.edit', $stand) }}" class="btn btn-sm btn-warning">Modifier</a>

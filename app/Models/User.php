@@ -24,6 +24,7 @@ class User extends Authenticatable
         'role',
         'statut',
         'nom_entreprise',
+        'motif_rejet', // Ajouté pour permettre l'enregistrement du motif
     ];
 
     /**

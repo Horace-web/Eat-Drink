@@ -14,12 +14,21 @@ class ExposantController extends Controller
 
 public function index()
 {
+    $query = request('q');
     $stands = Stand::with('user')
-        ->whereHas('user', function ($query) {
-            $query->where('role', 'entrepreneur_approuve');
+        ->whereHas('user', function ($q) {
+            $q->where('role', 'entrepreneur_approuve');
+        })
+        ->when($query, function ($q) use ($query) {
+            $q->where(function ($sub) use ($query) {
+                $sub->where('nom_stand', 'like', "%$query%")
+                    ->orWhereHas('products', function ($p) use ($query) {
+                        $p->where('nom', 'like', "%$query%")
+                            ->orWhere('description', 'like', "%$query%") ;
+                    });
+            });
         })
         ->get();
-
     return view('exposants.index', compact('stands'));
 }
 

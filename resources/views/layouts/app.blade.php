@@ -60,10 +60,26 @@
                                     <a href="{{ route('entrepreneur.stands.index') }}" class="nav-link">Mes stands</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('entrepreneur.dashboard') }}" class="nav-link">Tableau de bord</a>
+                                    <a href="{{ route('entrepreneur.dashboard') }}" class="nav-link">Dashboard entrepreneur</a>
+                                </li>
+                            @elseif(auth()->user()->role === 'admin')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard admin</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.commandes') }}" class="nav-link">Commandes</a>
                                 </li>
                             @endif
 
+                            <li class="nav-item">
+                                <a href="{{ route('panier.index') }}" class="nav-link">
+                                    🛒 Mon panier
+                                    @php $nb = is_array(session('panier')) ? array_sum(array_column(session('panier'), 'quantite')) : 0; @endphp
+                                    @if($nb > 0)
+                                        <span class="badge bg-success">{{ $nb }}</span>
+                                    @endif
+                                </a>
+                            </li>
 
                             {{-- Bouton Déconnexion --}}
                             <li class="nav-item">

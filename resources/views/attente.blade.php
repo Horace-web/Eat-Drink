@@ -1,15 +1,22 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="alert alert-warning text-center mt-5">
-        Votre demande est en attente de validation par un administrateur.<br>
-        @auth
-            @if (Auth::user()->role === 'entrepreneur_approuve')
-                <a href="{{ url('/entrepreneur/dashboard') }}" class="btn btn-primary">
-                    Accéder à mon tableau de bord
-                </a>
-            @endif
-        @endauth
+@section('title', 'Statut de votre demande')
 
-    </div>
+@section('content')
+<div class="container py-5 text-center">
+    <h1>Statut de votre demande</h1>
+    @if(auth()->check() && auth()->user()->statut === 'rejete')
+        <div class="alert alert-danger">
+            Votre demande a été rejetée.<br>
+            @if(auth()->user()->motif_rejet)
+                <strong>Motif :</strong> {{ auth()->user()->motif_rejet }}
+            @endif
+        </div>
+    @else
+        <div class="alert alert-info">
+            Votre demande est en attente d'approbation par l'administration.<br>
+            Vous recevrez un email dès qu'une décision sera prise.
+        </div>
+    @endif
+</div>
 @endsection

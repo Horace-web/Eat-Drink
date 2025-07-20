@@ -14,39 +14,46 @@
                     </div>
                 </div>
                 <div class="card-body">
-                     {{-- Formulaire d'inscription --}}
-                        <form id="inscription-form" method="POST" action="{{ route('register') }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="nom" class="form-label">Nom</label>
-                                <input type="text" class="form-control" id="nom" name="nom" required>
-                                <span class="error-message" id="nom-error"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="prenom" class="form-label">Prénom</label>
-                                <input type="text" class="form-control" id="prenom" name="prenom" required>
-                                <span class="error-message" id="prenom-error"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nom_entreprise" class="form-label">Nom de l'entreprise</label>
-                                <input type="text" class="form-control" id="nom_entreprise" name="nom_entreprise" required>
-                                <span class="error-message" id="nom_entreprise-error"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Adresse Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                                <span class="error-message" id="email-error"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                                <span class="error-message" id="password-error"></span>
-                            </div>
-                            <div class="card-footer text-center bg-white border-0">
-                                <button type="submit" class="btn btn-primary">S'inscrire</button>
-                            </div>
-                        </form>
-
+                    {{-- Affichage des erreurs --}}
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+                    {{-- Formulaire d'inscription --}}
+                    <form id="inscription-form" method="POST" action="{{ route('register') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="nom" name="nom" required>
+                            <span class="error-message" id="nom-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prenom" class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" required>
+                            <span class="error-message" id="prenom-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nom_entreprise" class="form-label">Nom de l'entreprise</label>
+                            <input type="text" class="form-control" id="nom_entreprise" name="nom_entreprise" required>
+                            <span class="error-message" id="nom_entreprise-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Adresse Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <span class="error-message" id="email-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <span class="error-message" id="password-error"></span>
+                        </div>
+                        <div class="card-footer text-center bg-white border-0">
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        </div>
+                    </form>
 
                     {{-- Formulaire de connexion --}}
                     <form id="connexion-form" method="POST" action="{{ route('login') }}" class="d-none">

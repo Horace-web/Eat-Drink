@@ -2,40 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Order;
+use App\Mail\StatutEntrepreneurMail;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
-    // 🟦 Affiche le dashboard avec les entrepreneurs en attente
+    // Affiche le dashboard avec la liste des demandes en attente
     public function dashboard()
     {
-        $utilisateursEnAttente = User::where('role', 'entrepreneur_en_attente')
-                                      ->where('statut', 'en_attente')
-                                      ->get();
-
-        return view('admin.dashboard', compact('utilisateursEnAttente'));
+        $demandes = User::where('role', 'entrepreneur_en_attente')
+            ->orWhere('statut', 'en_attente')
+            ->get();
+        return view('admin.dashboard', compact('demandes'));
     }
 
-    // 🟩 Valide un utilisateur (approuve)
-    public function valider($id)
+    // Approuver une demande
+    public function approve($id)
     {
         $user = User::findOrFail($id);
         $user->role = 'entrepreneur_approuve';
         $user->statut = 'approuve';
         $user->save();
-
-        return redirect()->back()->with('success', "L'utilisateur a été approuvé.");
+        // Envoi du mail d'approbation
+        Mail::to($user->email)->send(new StatutEntrepreneurMail($user, 'approuve'));
+        return redirect()->back()->with('success', 'Demande approuvée avec succès.');
     }
 
-    // 🟥 Rejette un utilisateur
-    public function rejeter($id)
+    // Rejeter une demande (avec motif optionnel)
+    public function reject(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $user->role = 'entrepreneur_en_attente'; // On garde le rôle, mais on change le statut
         $user->statut = 'rejete';
+        // (Bonus) Enregistrer le motif si fourni
+        if ($request->filled('motif_rejet')) {
+            $user->motif_rejet = $request->input('motif_rejet');
+        }
         $user->save();
+        // Envoi du mail de rejet
+        Mail::to($user->email)->send(new StatutEntrepreneurMail($user, 'rejete', $user->motif_rejet));
+        return redirect()->back()->with('success', 'Demande rejetée.');
+    }
 
-        return redirect()->back()->with('success', "L'utilisateur a été rejeté.");
+    // Affiche la liste des commandes
+    public function commandes()
+    {
+        $commandes = Order::with('stand')->latest()->get();
+        return view('admin.commandes', compact('commandes'));
     }
 }
 
