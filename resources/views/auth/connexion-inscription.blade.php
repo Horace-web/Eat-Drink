@@ -43,7 +43,7 @@
                     </form>
 
                     {{-- Formulaire de connexion --}}
-                    <form id="connexion-form" method="POST" action="{{ route('login') }}">
+                    <form id="connexion-form" method="POST" action="{{ route('login') }}" class="d-none">
                         @csrf
                         <div class="mb-3">
                             <label for="email_connexion" class="form-label">Email</label>

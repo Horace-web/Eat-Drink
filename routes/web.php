@@ -40,3 +40,25 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])
 use App\Http\Controllers\EntrepreneurController;
 Route::get('/entrepreneur/dashboard', [EntrepreneurController::class, 'dashboard'])
     ->middleware(['auth', \App\Http\Middleware\CheckRole::class . ':entrepreneur_approuve', \App\Http\Middleware\CheckEntrepreneurStatus::class]);
+
+    use Illuminate\Support\Facades\DB;
+
+// Route::get('/db-check', function () {
+//     return 'Connected to database: ' . DB::connection()->getDatabaseName();
+// });
+
+use App\Http\Controllers\AdminDashboardController;
+
+Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::post('/admin/utilisateurs/{id}/valider', [AdminController::class, 'valider'])->name('admin.utilisateur.valider');
+});
+
+
+
+Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/admin/valider/{id}', [AdminController::class, 'valider'])->name('admin.valider');
+    Route::post('/admin/rejeter/{id}', [AdminController::class, 'rejeter'])->name('admin.rejeter');
+});
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

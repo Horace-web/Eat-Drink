@@ -42,9 +42,33 @@
                         <li class="nav-item">
                             <a href="{{ url('/exposants') }}" class="nav-link">Nos exposants</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/auth')}}" class="nav-link">Connexion</a>
-                        </li>
+
+                        @guest
+                            {{-- Utilisateur non connecté --}}
+                            <li class="nav-item">
+                                <a href="{{ url('/auth') }}" class="nav-link">Connexion</a>
+                            </li>
+                        @else
+                            {{-- Utilisateur connecté --}}
+
+                            {{-- Lien Mes produits pour entrepreneurs validés --}}
+                            @if(auth()->user()->role === 'entrepreneur_approuve')
+                                <li class="nav-item">
+                                    <a href="{{ url('/mes-produits') }}" class="nav-link">Mes produits</a>
+                                </li>
+                            @endif
+
+                            {{-- Bouton Déconnexion --}}
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-light btn-sm ms-lg-2 mt-2 mt-lg-0">
+                                        Déconnexion
+                                    </button>
+                                </form>
+                            </li>
+                        @endguest
+
                         {{-- <li class="nav-item">
                             <a href="" class="btn btn-outline-light btn-sm ms-lg-2 mt-2 mt-lg-0">Demander un stand</a>
                         </li> --}}

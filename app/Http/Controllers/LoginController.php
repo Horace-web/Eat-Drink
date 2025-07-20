@@ -29,4 +29,14 @@ class LoginController extends Controller
             'email' => 'Identifiants invalides.',
         ])->withInput();
     }
+     public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/'); // Redirection vers la page d’accueil ou autre
+    }
 }
