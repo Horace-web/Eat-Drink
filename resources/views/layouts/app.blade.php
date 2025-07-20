@@ -25,7 +25,6 @@
 </head>
 <body>
 
-    {{-- HEADER GLOBAL (Navbar responsive Bootstrap) --}}
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
