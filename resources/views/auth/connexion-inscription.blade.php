@@ -14,8 +14,16 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    {{-- Affichage des erreurs --}}
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
                     {{-- Formulaire d'inscription --}}
-                    <form id="inscription-form">
+                    <form id="inscription-form" method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="nom" class="form-label">Nom</label>
@@ -26,6 +34,11 @@
                             <label for="prenom" class="form-label">Prénom</label>
                             <input type="text" class="form-control" id="prenom" name="prenom" required>
                             <span class="error-message" id="prenom-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nom_entreprise" class="form-label">Nom de l'entreprise</label>
+                            <input type="text" class="form-control" id="nom_entreprise" name="nom_entreprise" required>
+                            <span class="error-message" id="nom_entreprise-error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Adresse Email</label>
@@ -43,15 +56,15 @@
                     </form>
 
                     {{-- Formulaire de connexion --}}
-                    <form id="connexion-form" class="d-none">
+                    <form id="connexion-form" method="POST" action="{{ route('login') }}" class="d-none">
                         @csrf
                         <div class="mb-3">
                             <label for="email_connexion" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email_connexion" name="email_connexion" required>
+                            <input type="email" class="form-control" id="email_connexion" name="email" required>
                         </div>
                         <div class="mb-3">
                             <label for="password_connexion" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" id="password_connexion" name="password_connexion" required>
+                            <input type="password" class="form-control" id="password_connexion" name="password" required>
                         </div>
                         <div class="text-end">
                             <a href="#" class="small text-primary">Mot de passe oublié ?</a>

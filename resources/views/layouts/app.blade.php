@@ -25,7 +25,6 @@
 </head>
 <body>
 
-    {{-- HEADER GLOBAL (Navbar responsive Bootstrap) --}}
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
@@ -42,9 +41,56 @@
                         <li class="nav-item">
                             <a href="{{ url('/exposants') }}" class="nav-link">Nos exposants</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/auth')}}" class="nav-link">Connexion</a>
-                        </li>
+
+                        @guest
+                            {{-- Utilisateur non connecté --}}
+                            <li class="nav-item">
+                                <a href="{{ url('/auth') }}" class="nav-link">Connexion</a>
+                            </li>
+                        @else
+                            {{-- Utilisateur connecté --}}
+
+                            {{-- Lien Mes produits pour entrepreneurs validés --}}
+                            @if(auth()->user()->role === 'entrepreneur_approuve')
+                                <li class="nav-item">
+                                    <a href="{{ route('products.index') }}" class="nav-link">Mes produits</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('entrepreneur.stands.index') }}" class="nav-link">Mes stands</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('entrepreneur.dashboard') }}" class="nav-link">Dashboard entrepreneur</a>
+                                </li>
+                            @elseif(auth()->user()->role === 'admin')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard admin</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.commandes') }}" class="nav-link">Commandes</a>
+                                </li>
+                            @endif
+
+                            <li class="nav-item">
+                                <a href="{{ route('panier.index') }}" class="nav-link">
+                                    🛒 Mon panier
+                                    @php $nb = is_array(session('panier')) ? array_sum(array_column(session('panier'), 'quantite')) : 0; @endphp
+                                    @if($nb > 0)
+                                        <span class="badge bg-success">{{ $nb }}</span>
+                                    @endif
+                                </a>
+                            </li>
+
+                            {{-- Bouton Déconnexion --}}
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-light btn-sm ms-lg-2 mt-2 mt-lg-0">
+                                        Déconnexion
+                                    </button>
+                                </form>
+                            </li>
+                        @endguest
+
                         {{-- <li class="nav-item">
                             <a href="" class="btn btn-outline-light btn-sm ms-lg-2 mt-2 mt-lg-0">Demander un stand</a>
                         </li> --}}
