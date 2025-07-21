@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: eatdrink-web
+    env: php
+    runtime: php
+    phpVersion: 8.2
+    buildCommand: ./render-build.sh
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
