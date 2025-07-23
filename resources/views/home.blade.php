@@ -8,7 +8,7 @@
         <div class="bg-dark bg-opacity-50 p-5 rounded">
             <h1 class="display-4">Bienvenue à Eat&Drink 🍽️</h1>
             <p class="lead">Le plus grand rassemblement culinaire pour les gourmets et les créateurs de saveurs !</p>
-            <a href="" class="btn btn-primary btn-lg mt-3">Demander un stand</a>
+            <a href="{{ url('/auth') }}" class="btn btn-primary btn-lg mt-3">Demander un stand</a>
         </div>
     </div>
 
@@ -59,6 +59,6 @@
     {{-- Appel à action final --}}
     <div class="text-center py-5 bg-primary text-white">
         <h4 class="mb-3">Prêt à rejoindre l’aventure ?</h4>
-        <a href="" class="btn btn-light btn-lg">Demander un stand maintenant</a>
+        <a href="{{ url('/auth') }}" class="btn btn-light btn-lg">Demander un stand maintenant</a>
     </div>
 @endsection

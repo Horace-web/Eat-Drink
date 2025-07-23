@@ -12,12 +12,14 @@
     <style>
         html, body {
             height: 100%;
-            overflow-x:hidden;
+
         }
         body {
             display: flex;
             flex-direction: column;
+            padding-top: 70px;
         }
+
         main {
             flex: 1;
         }
@@ -26,7 +28,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">🍽️ Eat&Drink</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,20 +40,36 @@
                         <li class="nav-item">
                             <a href="{{ url('/') }}" class="nav-link">Accueil</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ url('/exposants') }}" class="nav-link">Nos exposants</a>
-                        </li>
+                        </li> --}}
+
 
                         @guest
                             {{-- Utilisateur non connecté --}}
                             <li class="nav-item">
+                            <a href="{{ url('/exposants') }}" class="nav-link">Nos exposants</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ url('/auth') }}" class="nav-link">Connexion</a>
+                            </li>
+                             <li class="nav-item">
+                                <a href="{{ route('panier.index') }}" class="nav-link">
+                                    🛒 Mon panier
+                                    @php $nb = is_array(session('panier')) ? array_sum(array_column(session('panier'), 'quantite')) : 0; @endphp
+                                    @if($nb > 0)
+                                        <span class="badge bg-success">{{ $nb }}</span>
+                                    @endif
+                                </a>
                             </li>
                         @else
                             {{-- Utilisateur connecté --}}
 
                             {{-- Lien Mes produits pour entrepreneurs validés --}}
                             @if(auth()->user()->role === 'entrepreneur_approuve')
+                                    <li class="nav-item">
+                                    <a href="{{ url('/exposants') }}" class="nav-link">Nos exposants</a>
+                                </li>
                                 <li class="nav-item">
                                     <a href="{{ route('products.index') }}" class="nav-link">Mes produits</a>
                                 </li>
@@ -60,6 +78,15 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('entrepreneur.dashboard') }}" class="nav-link">Dashboard entrepreneur</a>
+                                </li>
+                                <li class="nav-item">
+                                <a href="{{ route('panier.index') }}" class="nav-link">
+                                    🛒 Mon panier
+                                    @php $nb = is_array(session('panier')) ? array_sum(array_column(session('panier'), 'quantite')) : 0; @endphp
+                                    @if($nb > 0)
+                                        <span class="badge bg-success">{{ $nb }}</span>
+                                    @endif
+                                </a>
                                 </li>
                             @elseif(auth()->user()->role === 'admin')
                                 <li class="nav-item">
@@ -70,15 +97,7 @@
                                 </li>
                             @endif
 
-                            <li class="nav-item">
-                                <a href="{{ route('panier.index') }}" class="nav-link">
-                                    🛒 Mon panier
-                                    @php $nb = is_array(session('panier')) ? array_sum(array_column(session('panier'), 'quantite')) : 0; @endphp
-                                    @if($nb > 0)
-                                        <span class="badge bg-success">{{ $nb }}</span>
-                                    @endif
-                                </a>
-                            </li>
+
 
                             {{-- Bouton Déconnexion --}}
                             <li class="nav-item">
