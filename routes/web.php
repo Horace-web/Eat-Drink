@@ -106,16 +106,3 @@ Route::post('/panier/vider', [PanierController::class, 'vider'])->name('panier.v
 Route::post('/panier/valider', [PanierController::class, 'validerCommande'])->name('panier.valider');
 
 
-Route::get('/run-migrate', function () {
-    try {
-        Artisan::call('migrate', ['--force' => true]);
-        return '✅ Migration exécutée avec succès !';
-    } catch (\Exception $e) {
-        return '❌ Erreur : ' . $e->getMessage();
-    }
-});
-Route::get('/clear-cache', function () {
-    Artisan::call('config:clear');
-    Artisan::call('config:cache');
-    return "Config cleared and cached";
-});
