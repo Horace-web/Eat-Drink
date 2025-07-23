@@ -107,6 +107,10 @@ Route::post('/panier/valider', [PanierController::class, 'validerCommande'])->na
 
 
 Route::get('/run-migrate', function () {
-    Artisan::call('migrate', ['--force' => true]);
-    return '✅ Migration exécutée avec succès !';
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        return '✅ Migration exécutée avec succès !';
+    } catch (\Exception $e) {
+        return '❌ Erreur : ' . $e->getMessage();
+    }
 });
