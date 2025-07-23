@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'statut',
+        'nom_entreprise',
+        'motif_rejet', // Ajouté pour permettre l'enregistrement du motif
     ];
 
     /**
@@ -45,4 +49,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function stands()
+    {
+        return $this->hasMany(Stand::class);
+    }
+
+    // public function stand()
+    // {
+    //     return $this->hasOne(\App\Models\Stand::class);
+    // }
+    // User.php
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
 }
