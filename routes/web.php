@@ -102,3 +102,9 @@ Route::post('/panier/ajouter/{id}', [PanierController::class, 'ajouter'])->name(
 Route::post('/panier/supprimer/{id}', [PanierController::class, 'supprimer'])->name('panier.supprimer');
 Route::post('/panier/vider', [PanierController::class, 'vider'])->name('panier.vider');
 Route::post('/panier/valider', [PanierController::class, 'validerCommande'])->name('panier.valider');
+
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return 'Migration effectuée !';
+});
