@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\StandController;
+use Illuminate\Support\Facades\Artisan;
+
 
 Route::get('/', function () {
     return view('home');
@@ -104,3 +106,7 @@ Route::post('/panier/vider', [PanierController::class, 'vider'])->name('panier.v
 Route::post('/panier/valider', [PanierController::class, 'validerCommande'])->name('panier.valider');
 
 
+Route::get('/run-migrate', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return '✅ Migration exécutée avec succès !';
+});
